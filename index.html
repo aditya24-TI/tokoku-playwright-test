@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TokoKu - Login &amp; Beranda E-Commerce</title>
+  <style>
+    :root {
+      --primary: #0f766e;
+      --primary-hover: #115e59;
+      --primary-light: #ccfbf1;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border: #cbd5e1;
+      --danger: #dc2626;
+      --danger-bg: #fef2f2;
+      --danger-border: #fecaca;
+      --warning: #b45309;
+      --warning-bg: #fffbeb;
+      --warning-border: #fde68a;
+      --info: #0369a1;
+      --info-bg: #f0f9ff;
+      --info-border: #bae6fd;
+      --radius: 12px;
+      --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, #f0fdfa 0%, #f8fafc 50%, #e0f2fe 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      line-height: 1.5;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* ==================== LOGIN VIEW ==================== */
+    .login-wrapper {
+      width: 100%;
+      max-width: 420px;
+      background: var(--surface);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      border: 1px solid #e2e8f0;
+      padding: 32px 28px;
+      transition: all 0.2s ease;
+    }
+
+    .brand-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .brand-logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: var(--primary);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
+    }
+
+    .brand-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .brand-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .alert-box {
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 500;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .alert-danger {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border: 1px solid var(--danger-border);
+    }
+
+    .alert-locked {
+      background: var(--warning-bg);
+      color: var(--warning);
+      border: 1px solid var(--warning-border);
+    }
+
+    .alert-info {
+      background: var(--info-bg);
+      color: var(--info);
+      border: 1px solid var(--info-border);
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 11px 14px;
+      font-size: 14.5px;
+      color: var(--text-main);
+      background: #ffffff;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15);
+    }
+
+    .form-input.input-error {
+      border-color: var(--danger);
+    }
+
+    .password-input {
+      padding-right: 76px;
+    }
+
+    .btn-toggle-pw {
+      position: absolute;
+      right: 8px;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .btn-toggle-pw:hover {
+      background: #e2e8f0;
+      color: var(--text-main);
+    }
+
+    .field-error {
+      color: var(--danger);
+      font-size: 12.5px;
+      font-weight: 500;
+      margin-top: 6px;
+    }
+
+    .form-options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+      font-size: 13.5px;
+    }
+
+    .remember-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .remember-label input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .forgot-link {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      padding: 0;
+    }
+
+    .forgot-link:hover {
+      text-decoration: underline;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--primary-hover);
+    }
+
+    .btn-primary:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+
+    .btn-primary:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+      opacity: 0.75;
+    }
+
+    .demo-hint {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px dashed #e2e8f0;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .demo-hint code {
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    /* ==================== BERANDA VIEW ==================== */
+    .store-wrapper {
+      width: 100%;
+      max-width: 980px;
+      background: var(--surface);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+    }
+
+    .store-navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 28px;
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--primary);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .nav-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .cart-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #f0fdfa;
+      border: 1px solid #99f6e4;
+      color: var(--primary);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .cart-badge {
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      min-width: 22px;
+      height: 22px;
+      padding: 0 6px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-logout {
+      padding: 8px 16px;
+      background: #fff1f2;
+      color: #e11d48;
+      border: 1px solid #fecdd3;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .btn-logout:hover {
+      background: #ffe4e6;
+    }
+
+    .store-hero {
+      background: linear-gradient(120deg, #0f766e 0%, #0d9488 100%);
+      color: #ffffff;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .greeting-text {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .greeting-sub {
+      font-size: 13.5px;
+      opacity: 0.9;
+      margin-top: 4px;
+    }
+
+    .store-content {
+      padding: 28px;
+    }
+
+    .section-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      color: var(--text-main);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .product-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #ffffff;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.08);
+    }
+
+    .product-thumb {
+      width: 100%;
+      height: 110px;
+      border-radius: 10px;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      margin-bottom: 14px;
+    }
+
+    .product-category {
+      font-size: 11.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .product-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .product-price {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f766e;
+      margin-bottom: 14px;
+    }
+
+    .btn-add-cart {
+      width: 100%;
+      padding: 9px 12px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .btn-add-cart:hover {
+      background: var(--primary-hover);
+    }
+
+    /* ==================== RESPONSIVE (MOBILE & TABLET) ==================== */
+    @media (max-width: 860px) {
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 12px;
+      }
+
+      .login-wrapper {
+        padding: 24px 18px;
+      }
+
+      .store-navbar {
+        padding: 14px 16px;
+      }
+
+      .store-hero {
+        padding: 18px 16px;
+      }
+
+      .greeting-text {
+        font-size: 17px;
+      }
+
+      .store-content {
+        padding: 18px 16px;
+      }
+
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== BAGIAN 1: FORM LOGIN ==================== -->
+  <main id="login-section" class="login-wrapper" data-testid="halaman-login">
+    <div class="brand-header">
+      <div class="brand-logo" aria-hidden="true">TK</div>
+      <h1 class="brand-title">TokoKu</h1>
+      <p class="brand-subtitle">Masuk untuk mulai berbelanja kebutuhanmu</p>
+    </div>
+
+    <!-- Pesan gagal login -->
+    <div
+      id="pesan-gagal"
+      data-testid="pesan-gagal"
+      class="alert-box alert-danger hidden"
+      role="alert"
+    ></div>
+
+    <!-- Pesan akun terkunci sementara -->
+    <div
+      id="pesan-terkunci"
+      data-testid="pesan-terkunci"
+      class="alert-box alert-locked hidden"
+      role="alert"
+    >
+      Akun terkunci sementara karena 3 kali gagal login berturut-turut.
+    </div>
+
+    <!-- Pesan info lupa password -->
+    <div
+      id="pesan-lupa-password"
+      data-testid="pesan-lupa-password"
+      class="alert-box alert-info hidden"
+      role="status"
+    >
+      Silakan hubungi layanan pelanggan TokoKu atau cek email terdaftar untuk tautan reset password.
+    </div>
+
+    <form id="login-form" data-testid="form-login" novalidate>
+      <!-- Field Email -->
+      <div class="form-group">
+        <label for="input-email" class="form-label">Email</label>
+        <div class="input-wrapper">
+          <input
+            type="email"
+            id="input-email"
+            data-testid="input-email"
+            class="form-input"
+            placeholder="nama@email.com"
+            autocomplete="email"
+          />
+        </div>
+        <p
+          id="error-email"
+          data-testid="error-email"
+          class="field-error hidden"
+        ></p>
+      </div>
+
+      <!-- Field Password -->
+      <div class="form-group">
+        <label for="input-password" class="form-label">Password</label>
+        <div class="input-wrapper">
+          <input
+            type="password"
+            id="input-password"
+            data-testid="input-password"
+            class="form-input password-input"
+            placeholder="Minimal 8 karakter"
+            autocomplete="current-password"
+          />
+          <button
+            type="button"
+            id="btn-toggle-password"
+            data-testid="btn-toggle-password"
+            class="btn-toggle-pw"
+            aria-label="Tampilkan atau sembunyikan password"
+          >
+            Lihat
+          </button>
+        </div>
+        <p
+          id="error-password"
+          data-testid="error-password"
+          class="field-error hidden"
+        ></p>
+      </div>
+
+      <!-- Opsi Ingat Saya & Lupa Password -->
+      <div class="form-options">
+        <label class="remember-label" for="chk-remember">
+          <input
+            type="checkbox"
+            id="chk-remember"
+            data-testid="chk-remember"
+          />
+          <span>Ingat saya</span>
+        </label>
+
+        <a
+          href="#pesan-lupa-password"
+          id="link-forgot-password"
+          data-testid="link-forgot-password"
+          class="forgot-link"
+        >
+          Lupa password?
+        </a>
+      </div>
+
+      <!-- Tombol Submit Login -->
+      <button
+        type="submit"
+        id="btn-login"
+        data-testid="btn-login"
+        class="btn-primary"
+      >
+        Login
+      </button>
+    </form>
+
+    <div class="demo-hint">
+      Akun Uji: <code>user@tokoku.com</code> / <code>Password123</code>
+    </div>
+  </main>
+
+  <!-- ==================== BAGIAN 2: HALAMAN BERANDA TOKO ==================== -->
+  <section
+    id="halaman-beranda"
+    data-testid="halaman-beranda"
+    class="store-wrapper hidden"
+  >
+    <header class="store-navbar">
+      <div class="nav-brand">
+        <div class="nav-logo" aria-hidden="true">TK</div>
+        <span class="nav-title">TokoKu Official Store</span>
+      </div>
+
+      <div class="nav-actions">
+        <div class="cart-pill" data-testid="ikon-keranjang" aria-label="Keranjang Belanja">
+          <span aria-hidden="true">🛒</span>
+          <span>Keranjang</span>
+          <span
+            id="badge-keranjang"
+            data-testid="badge-keranjang"
+            class="cart-badge"
+          >0</span>
+        </div>
+
+        <button
+          type="button"
+          id="btn-logout"
+          data-testid="btn-logout"
+          class="btn-logout"
+        >
+          Logout
+        </button>
+      </div>
+    </header>
+
+    <div class="store-hero">
+      <div>
+        <h2 id="sapaan-user" data-testid="sapaan-user" class="greeting-text">
+          Selamat datang, user@tokoku.com
+        </h2>
+        <p class="greeting-sub">
+          Pilih produk elektronik dan aksesoris favoritmu hari ini.
+        </p>
+      </div>
+    </div>
+
+    <div class="store-content">
+      <h3 class="section-title">Katalog Produk Pilihan</h3>
+
+      <div class="product-grid" data-testid="daftar-produk">
+        <!-- Produk 1 -->
+        <article class="product-card" data-testid="produk-item-1">
+          <div>
+            <div class="product-thumb" aria-hidden="true">🎧</div>
+            <div class="product-category">Audio</div>
+            <h4 class="product-name" data-testid="nama-produk-1">
+              Headphone Wireless Pro
+            </h4>
+            <p class="product-price" data-testid="harga-produk-1">
+              Rp 349.000
+            </p>
+          </div>
+          <button
+            type="button"
+            class="btn-add-cart"
+            data-testid="btn-tambah-keranjang-1"
+            data-product-id="1"
+          >
+            Tambah ke Keranjang
+          </button>
+        </article>
+
+        <!-- Produk 2 -->
+        <article class="product-card" data-testid="produk-item-2">
+          <div>
+            <div class="product-thumb" aria-hidden="true">⌨️</div>
+            <div class="product-category">Aksesoris PC</div>
+            <h4 class="product-name" data-testid="nama-produk-2">
+              Mechanical Keyboard RGB
+            </h4>
+            <p class="product-price" data-testid="harga-produk-2">
+              Rp 525.000
+            </p>
+          </div>
+          <button
+            type="button"
+            class="btn-add-cart"
+            data-testid="btn-tambah-keranjang-2"
+            data-product-id="2"
+          >
+            Tambah ke Keranjang
+          </button>
+        </article>
+
+        <!-- Produk 3 -->
+        <article class="product-card" data-testid="produk-item-3">
+          <div>
+            <div class="product-thumb" aria-hidden="true">🖱️</div>
+            <div class="product-category">Gaming Gear</div>
+            <h4 class="product-name" data-testid="nama-produk-3">
+              Mouse Gaming Ergonomis
+            </h4>
+            <p class="product-price" data-testid="harga-produk-3">
+              Rp 215.000
+            </p>
+          </div>
+          <button
+            type="button"
+            class="btn-add-cart"
+            data-testid="btn-tambah-keranjang-3"
+            data-product-id="3"
+          >
+            Tambah ke Keranjang
+          </button>
+        </article>
+
+        <!-- Produk 4 -->
+        <article class="product-card" data-testid="produk-item-4">
+          <div>
+            <div class="product-thumb" aria-hidden="true">🔋</div>
+            <div class="product-category">Daya &amp; Kabel</div>
+            <h4 class="product-name" data-testid="nama-produk-4">
+              Adaptor Fast Charging 20W
+            </h4>
+            <p class="product-price" data-testid="harga-produk-4">
+              Rp 145.000
+            </p>
+          </div>
+          <button
+            type="button"
+            class="btn-add-cart"
+            data-testid="btn-tambah-keranjang-4"
+            data-product-id="4"
+          >
+            Tambah ke Keranjang
+          </button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    /**
+     * ============================================================
+     * AKUN DUMMY YANG VALID UNTUK PENGUJIAN (TOKOKU)
+     * Email    : user@tokoku.com
+     * Password : Password123
+     * ============================================================
+     */
+    const VALID_ACCOUNT = {
+      email: 'user@tokoku.com',
+      password: 'Password123'
+    };
+
+    const MAX_FAILED_ATTEMPTS = 3;
+    const STORAGE_KEY_REMEMBER_EMAIL = 'tokoku_remembered_email';
+
+    // State aplikasi
+    let failedAttempts = 0;
+    let isLocked = false;
+    let cartCount = 0;
+
+    // Referensi elemen DOM
+    const loginSection = document.getElementById('login-section');
+    const berandaSection = document.getElementById('halaman-beranda');
+    const loginForm = document.getElementById('login-form');
+    const inputEmail = document.getElementById('input-email');
+    const inputPassword = document.getElementById('input-password');
+    const btnTogglePassword = document.getElementById('btn-toggle-password');
+    const chkRemember = document.getElementById('chk-remember');
+    const btnLogin = document.getElementById('btn-login');
+    const linkForgotPassword = document.getElementById('link-forgot-password');
+
+    const errorEmail = document.getElementById('error-email');
+    const errorPassword = document.getElementById('error-password');
+    const pesanGagal = document.getElementById('pesan-gagal');
+    const pesanTerkunci = document.getElementById('pesan-terkunci');
+    const pesanLupaPassword = document.getElementById('pesan-lupa-password');
+
+    const sapaanUser = document.getElementById('sapaan-user');
+    const badgeKeranjang = document.getElementById('badge-keranjang');
+    const btnLogout = document.getElementById('btn-logout');
+    const addToCartButtons = document.querySelectorAll('.btn-add-cart');
+
+    // Helper localStorage yang aman
+    function getRememberedEmail() {
+      try {
+        return localStorage.getItem(STORAGE_KEY_REMEMBER_EMAIL) || '';
+      } catch (err) {
+        return '';
+      }
+    }
+
+    function setRememberedEmail(emailValue) {
+      try {
+        if (emailValue) {
+          localStorage.setItem(STORAGE_KEY_REMEMBER_EMAIL, emailValue);
+        } else {
+          localStorage.removeItem(STORAGE_KEY_REMEMBER_EMAIL);
+        }
+      } catch (err) {
+        // Abaikan jika storage diblokir
+      }
+    }
+
+    // Validasi format email
+    function isValidEmailFormat(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    // Reset pesan error dan notifikasi
+    function clearValidationMessages() {
+      errorEmail.textContent = '';
+      errorEmail.classList.add('hidden');
+      inputEmail.classList.remove('input-error');
+
+      errorPassword.textContent = '';
+      errorPassword.classList.add('hidden');
+      inputPassword.classList.remove('input-error');
+
+      pesanGagal.textContent = '';
+      pesanGagal.classList.add('hidden');
+
+      pesanLupaPassword.classList.add('hidden');
+    }
+
+    // Muat email dari localStorage saat halaman pertama kali dibuka
+    function initRememberedEmail() {
+      const savedEmail = getRememberedEmail();
+      if (savedEmail) {
+        inputEmail.value = savedEmail;
+        chkRemember.checked = true;
+      }
+    }
+
+    // Event: Toggle Show/Hide Password
+    btnTogglePassword.addEventListener('click', function () {
+      const isPassword = inputPassword.getAttribute('type') === 'password';
+      inputPassword.setAttribute('type', isPassword ? 'text' : 'password');
+      btnTogglePassword.textContent = isPassword ? 'Sembunyikan' : 'Lihat';
+    });
+
+    // Event: Link Lupa Password
+    linkForgotPassword.addEventListener('click', function (event) {
+      event.preventDefault();
+      pesanLupaPassword.classList.remove('hidden');
+    });
+
+    // Event: Submit Form Login
+    loginForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      if (isLocked) {
+        return;
+      }
+
+      clearValidationMessages();
+
+      const emailVal = inputEmail.value.trim();
+      const passwordVal = inputPassword.value;
+      let isValid = true;
+
+      // 1 & 2. Validasi Email (wajib diisi & format valid)
+      if (!emailVal) {
+        errorEmail.textContent = 'Email wajib diisi';
+        errorEmail.classList.remove('hidden');
+        inputEmail.classList.add('input-error');
+        isValid = false;
+      } else if (!isValidEmailFormat(emailVal)) {
+        errorEmail.textContent = 'Format email tidak valid';
+        errorEmail.classList.remove('hidden');
+        inputEmail.classList.add('input-error');
+        isValid = false;
+      }
+
+      // 1 & 3. Validasi Password (wajib diisi & minimal 8 karakter)
+      if (!passwordVal) {
+        errorPassword.textContent = 'Password wajib diisi';
+        errorPassword.classList.remove('hidden');
+        inputPassword.classList.add('input-error');
+        isValid = false;
+      } else if (passwordVal.length < 8) {
+        errorPassword.textContent = 'Password minimal 8 karakter';
+        errorPassword.classList.remove('hidden');
+        inputPassword.classList.add('input-error');
+        isValid = false;
+      }
+
+      if (!isValid) {
+        return;
+      }
+
+      // 4 & 5 & 6. Cek kecocokan kredensial
+      if (
+        emailVal === VALID_ACCOUNT.email &&
+        passwordVal === VALID_ACCOUNT.password
+      ) {
+        // Login berhasil: reset counter gagal
+        failedAttempts = 0;
+
+        // 8. Simpan atau hapus email di localStorage sesuai checkbox "Ingat saya"
+        if (chkRemember.checked) {
+          setRememberedEmail(emailVal);
+        } else {
+          setRememberedEmail('');
+        }
+
+        // Tampilkan beranda toko & sapaan user
+        sapaanUser.textContent = 'Selamat datang, ' + emailVal;
+        loginSection.classList.add('hidden');
+        berandaSection.classList.remove('hidden');
+      } else {
+        // Kredensial salah
+        failedAttempts += 1;
+        pesanGagal.textContent =
+          'Email atau password salah (Percobaan gagal: ' +
+          failedAttempts +
+          '/' +
+          MAX_FAILED_ATTEMPTS +
+          ')';
+        pesanGagal.classList.remove('hidden');
+
+        // 5. Kunci akun jika gagal 3 kali berturut-turut
+        if (failedAttempts >= MAX_FAILED_ATTEMPTS) {
+          isLocked = true;
+          btnLogin.disabled = true;
+          pesanTerkunci.classList.remove('hidden');
+        }
+      }
+    });
+
+    // Event: Tambah ke Keranjang
+    addToCartButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        cartCount += 1;
+        badgeKeranjang.textContent = String(cartCount);
+      });
+    });
+
+    // Event: Logout
+    btnLogout.addEventListener('click', function () {
+      berandaSection.classList.add('hidden');
+      loginSection.classList.remove('hidden');
+
+      // Kosongkan form login saat logout dan reset pesan
+      clearValidationMessages();
+      inputEmail.value = '';
+      inputPassword.value = '';
+      inputPassword.setAttribute('type', 'password');
+      btnTogglePassword.textContent = 'Lihat';
+      chkRemember.checked = false;
+    });
+
+    // Inisialisasi saat halaman dimuat
+    initRememberedEmail();
+  </script>
+</body>
+</html>
